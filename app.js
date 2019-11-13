@@ -110,5 +110,6 @@ App({
   },
 
   globalData: {
+    currentCityName: null
   }
 })

@@ -35,7 +35,7 @@ Page({
           wx.removeStorageSync('token')
           that.login()
         } else {
-          bus.emit('logon')
+          bus.emit('event')
           // 回到原来的地方
           wx.navigateBack()
         }
@@ -83,7 +83,7 @@ Page({
           }
           wx.setStorageSync('token', res.data.token)
           wx.setStorageSync('uid', res.data.uid)
-          bus.emit('logon')
+          bus.emit('event')
           // 回到原来的地方
           wx.navigateBack()
         })

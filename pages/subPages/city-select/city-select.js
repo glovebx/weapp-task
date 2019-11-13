@@ -1,5 +1,6 @@
 const app = getApp();
 const util = require('../../../utils/util.js')
+const bus = require('../../../utils/bus.js')
 const throttle = util.throttle
 const citys = [{
     'id': '1',
@@ -4893,9 +4894,11 @@ Page({
     searchValue: '', //查询值
     result: [] //城市查询结果列表
   },
+
   onLoad() {
     this.normalizeCityList(citys)
   },
+
   onReady() {
     const query = wx.createSelectorQuery()
     query.select('.citylist-nav').boundingClientRect();
@@ -4923,11 +4926,13 @@ Page({
       })
     })
   },
+  
   onUnload(){
     wx.hideToast()
   },
+
   //页面滚动监听，使用函数节流优化
-  onPageScroll: throttle(function(e){
+  onPageScroll: throttle(function(e) {
     if (this.data.inNavbar || this.data.searchValue) {
       return //如果是侧边栏的wx.pageScrollTo触发的滚动则不执行下面的程序
     }
@@ -4935,6 +4940,7 @@ Page({
     const scrollTop = e.scrollTop
     this.handlePageScroll(sections, scrollTop)
   }),
+
   //页面滚动的处理程序
   handlePageScroll(sections, scrollTop) {
     for (let item of sections) {
@@ -4942,12 +4948,13 @@ Page({
         wx.showToast({
           title: item.title,
           icon: 'none',
-          duration:500
+          duration: 500
         })
         break;
       }
     }
   },
+
   //处理API返回的城市列表数据
   normalizeCityList(citys) {
     let map = {}
@@ -4984,8 +4991,8 @@ Page({
       items:[]
     };
     //判断是否获得用户定位城市
-    if (app.globalData.userLocation.status===1){
-      let city = citys.find(item => item.city_name === app.globalData.userLocation.cityName) || { city_name: '定位失败，请点击重试'}
+    if (app.globalData.currentCityName) {
+      let city = citys.find(item => item.city_name === app.globalData.currentCityName) || { city_name: '定位失败，请点击重试'}
       current.items = [city]
     } else {
       current.items = [{
@@ -4997,22 +5004,24 @@ Page({
       citylist: list
     })
   },
+
   //点击城市的事件处理程序
   selectCity(e) {
     const cityName = e.currentTarget.dataset.city.city_name
-    const _this = this
-    if (cityName ==='定位失败，请点击重试'){
+    const that = this
+    if (cityName ==='定位失败，请点击重试') {
       wx.showModal({
         title: '',
         content: '需要先授权定位才可获得您的位置信息',
         confirmText: "打开定位",
         success(res){
-          if (res.confirm){
+          if (res.confirm) {
             wx.openSetting({
               success(data){
-                if (data.authSetting['scope.userLocation']){
+                if (data.authSetting['scope.userLocation']) {
                   //app的globalData改变不能重新触发页面渲染？
-                  app.initPage()
+                  // app.initPage()
+                  bus.emit('event', 'locate')
                 }
               }
             })
@@ -5022,18 +5031,19 @@ Page({
     } else {
       wx.showModal({
         title: '提示',
-        content: '没有获取猫眼城市ID的API，所以暂不支持切换城市',
+        content: '抱歉，暂不支持切换城市',
         success(res) {
           if (res.confirm) {
             app.globalData.selectCity = { cityName }
             wx.switchTab({
-              url: '/pages/tabBar/movie/movie'
+              url: '/pages/tabBar/task/task'
             })
           }
         }
       })
     }
   },
+
   //侧边栏导航的点击事件处理
   navSelect(e) {
     const {
@@ -5050,6 +5060,7 @@ Page({
       duration: 0
     })
   },
+  
   //在侧边栏上滑动的事件处理,使用函数节流优化
   handleTouchmove: throttle(function(e){
     const {

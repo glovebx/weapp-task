@@ -9,16 +9,16 @@
       <view class='movie-info'>
         <view class='movie-name line-ellipsis'>{{detailTask.title}}</view>
         <!-- <view class='movie-ename line-ellipsis'>{{detailTask.enm}}</view> -->
-        <view wx:if='{{detailTask.globalReleased}}'>
-          <view wx:if='{{detailTask.sc}}'>
+        <!-- <view wx:if='{{detailTask.globalReleased}}'> -->
+          <view wx:if='{{detailTask.score}}'>
             <view class='movie-score line-ellipsis'>
-              <image class='movie-star' wx:for='{{detailTask.stars}}' wx:key='{{index}}' src='/assets/images/{{item}}.png'></image>
-              {{detailTask.sc}}
+              <image class='movie-star' wx:for='{{detailTask.score.stars}}' wx:key='{{index}}' src='/assets/images/{{item}}.png'></image>
+              {{detailTask.score.score}}
             </view>
-            <view class='score-num line-ellipsis'>({{detailTask.snum}}人评分)</view>
+            <view class='score-num line-ellipsis'>({{detailTask.score.total}}人评分)</view>
           </view>
-          <view class='no-score' wx:else>暂无评分</view>
-        </view>
+          <!-- <view class='no-score' wx:else>暂无评分</view> -->
+        <!-- </view> -->
         <view wx:else class='movie-score'>{{detailTask.attendantCount}}人参与</view>
         <view class='movie-category line-ellipsis'>
           <view>{{detailTask.cat}}</view>
@@ -27,7 +27,7 @@
             <text wx:if='{{detailTask.version[1]}}' class='tag-imax'>{{detailTask.version[1]}}</text>
           </view>
         </view>
-        <view class='movie-time line-ellipsis'>{{detailTask.src}} / {{detailTask.dur}}分钟</view>
+        <!-- <view class='movie-time line-ellipsis'>{{detailTask.src}} / {{detailTask.dur}}分钟</view> -->
         <view class='movie-time line-ellipsis'>{{detailTask.pubDesc}}</view>
       </view>
     </view>
@@ -50,7 +50,7 @@
           <image src='{{detailTask.videoImg}}' class='videoImg' mode='aspectFill'></image>
           <view class='iconfont icon-zanting'></view>
         </view>
-        <image wx:for='{{detailTask.images}}' wx:key='{{item}}' src='{{item}}' class='photo' mode='aspectFill' bindtap='previewImage' data-index='{{index}}'></image>
+        <image wx:for='{{detailTask.images}}' wx:key='key' src='{{item.url}}' class='photo' mode='aspectFill' bindtap='previewImage' data-index='{{index}}'></image>
       </scroll-view>
     </view>
     <view class='section' wx:if='{{comments.total && comments.hcmts.length}}'>
@@ -61,5 +61,11 @@
       <navigator wx:if='{{comments.total>3}}' class='total' url='../comment-page/comment-page?movieId={{detailTask.id}}&movieName={{detailTask.nm}}'>查看全部{{comments.total}}条短评</navigator>
     </view>
   </view>
-  <navigator hover-class='none' url='/pages/subPages/select-cinema/select-cinema?movieId={{detailTask.id}}&movieName={{detailTask.nm}}&showTime={{detailTask.rt}}' wx:if='{{detailTask.onSale}}' class='purchase'>立即领取</navigator>
+  <block wx:if="{{detailTask.myState}}">
+    <button wx:if="{{detailTask.myState == 'start'}}" class='purchase'>完成</button>
+  </block>
+  <block wx:else>
+    <button wx:if="{{detailTask.state == 'open'}}" class='purchase'>立即领取</button>
+    <button wx:if="{{detailTask.state == 'standby'}}" class='purchase'>提醒</button>
+  </block>
 </view>

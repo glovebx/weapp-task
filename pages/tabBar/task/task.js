@@ -25,9 +25,14 @@ Page({
   },
 
   onLoad() {
-    this.eventId = bus.on('logon', () => {
-      // console.log('logon!!!')
-      this.loadData()
+    this.eventId = bus.on('event', (key) => {
+      console.log('event', key)
+      if (key === 'logon') {
+        this.loadData()
+      } else if (key === 'locate') {
+        // 重新定位
+        this.initPage()
+      }
     })
 
     this.initPage()
@@ -59,6 +64,7 @@ Page({
         that.setData({
           cityName: name.replace('市', '')
         })
+        app.globalData.currentCityName = name.replace('市', '')
         console.log(`currentCity : ${name}`)
       })
       .catch(err => {
@@ -408,6 +414,6 @@ Page({
   },
 
   onUnload() {
-    bus.remove('logon', this.eventId)
+    bus.remove('event', this.eventId)
   }
 })
