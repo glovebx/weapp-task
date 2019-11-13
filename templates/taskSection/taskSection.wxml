@@ -1,0 +1,37 @@
+<template name="taskSection">
+  <navigator class='task-section' url='/pages/subPages/movie-detail/movie-detail?taskId={{task.taskId}}'>
+    <image class='task-img' src='{{task.cover}}'></image>
+    <view class='task-info'>
+      <view class='task-name line-ellipsis'>{{task.title}}
+        <!-- <text class='version {{task.version}}'></text> -->
+      </view>
+      <view class='task-score line-ellipsis'>
+        <!-- <view wx:if='{{task.globalReleased}}'>
+          <text wx:if='{{task.sc}}'>观众评<text class='grade'>{{task.sc}}</text></text>
+          <text wx:else>暂无评分</text>
+        </view> -->
+        <!-- <view wx:else> -->
+        <view wx:if='{{task.state=="open"}}'>需要 <text class='grade'>{{task.maxAttendant}}</text> 人，当前参与 <text class='grade'>{{task.attendantCount}}</text> 人</view>
+        <view wx:else>需要 <text class='grade'>{{task.maxAttendant}}</text> 人</view>
+      </view>
+      <view class='task-star line-ellipsis'>佣金：¥{{task.commission}}</view>
+      <view wx:if='{{task.dateStart}}'>{{task.dateStart}}开始</view>
+      <view wx:if='{{task.dateExpire}}'>{{task.dateExpire}}结束</view>
+      <view wx:if='{{task.description}}'class='task-showInfo line-ellipsis'>{{task.description}}</view>
+      <!-- <view wx:else class='task-showInfo line-ellipsis'>{{task.showInfo}}</view> -->
+    </view>
+    <view class='buy-tickets'>
+      <block wx:if="{{task.myState}}">
+        <view wx:if='{{task.myState=="start"}}' hover-stop-propagation='true' class='btn' catchtap="finishTask" data-task_id="{{task.taskId}}">完成</view>
+        <view wx:else class='btn proceeding'>查看</view>
+      </block>
+      <block wx:else>
+        <view wx:if='{{task.state=="open"}}' hover-stop-propagation='true' class='btn' catchtap="openTask" data-task_id="{{task.taskId}}">领取</view>
+        <view wx:elif='{{task.state=="standby"}}' class='btn pending'>提醒</view>
+        <view wx:else class='btn proceeding'>查看</view>
+        <!-- <view wx:elif='{{task.status=="close"}}' class='btn complete'>结束</view>
+        <view wx:elif='{{task.status=="expire"}}' class='btn expire'>超时</view> -->
+      </block>
+    </view>
+  </navigator>
+</template>

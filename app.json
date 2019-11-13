@@ -1,0 +1,53 @@
+{
+  "pages": [
+    "pages/tabBar/task/task",
+    "pages/tabBar/movie/movie",
+    "pages/tabBar/cinema/cinema",
+    "pages/tabBar/user/user",
+    "pages/tabBar/tologin/tologin",
+    "pages/subPages/city-select/city-select",
+    "pages/subPages/search-page/search-page",
+    "pages/subPages/movie-detail/movie-detail",
+    "pages/subPages/select-cinema/select-cinema",
+    "pages/subPages/cinema-detail/cinema-detail",
+    "pages/subPages/cinema-map/cinema-map",
+    "pages/subPages/comment-page/comment-page",
+    "pages/subPages/about-page/about-page",
+    "pages/subPages/snack-page/snack-page",
+    "pages/subPages/buy-ticket/buy-ticket",
+    "pages/subPages/movie-order/movie-order",
+    "pages/subPages/movie-order-detail/movie-order-detail",
+    "pages/subPages/buy-snack/buy-snack",
+    "pages/subPages/snack-order/snack-order",
+    "pages/subPages/video-page/video-page"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#e54847",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "color": "#696969",
+    "selectedColor": "#e54847",
+    "list": [
+      {
+        "pagePath": "pages/tabBar/task/task",
+        "text": "任务",
+        "iconPath": "assets/images/task.png",
+        "selectedIconPath": "assets/images/taskSelect.png"
+      },
+      {
+        "pagePath": "pages/tabBar/user/user",
+        "text": "我的",
+        "iconPath": "assets/images/user.png",
+        "selectedIconPath": "assets/images/userSelect.png"
+      }
+    ]
+  },
+"permission": {
+  "scope.userLocation": {
+    "desc": "获得就近的任务" 
+  }
+},  
+  "sitemapLocation": "sitemap.json"
+}

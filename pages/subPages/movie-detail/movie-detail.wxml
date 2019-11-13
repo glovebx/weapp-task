@@ -1,0 +1,65 @@
+<import src='../../../templates/commentSection/commentSection.wxml' />
+
+<view wx:if='{{detailTask}}'>
+  <view class='movie-header'>
+    <view class='movie-background' style='background-image: url({{detailTask.cover}})'></view>
+    <view class='movie-mask'></view>
+    <view class='movie-content'>
+      <view class='movie-poster' style='background-image: url({{detailTask.cover}})'></view>
+      <view class='movie-info'>
+        <view class='movie-name line-ellipsis'>{{detailTask.title}}</view>
+        <!-- <view class='movie-ename line-ellipsis'>{{detailTask.enm}}</view> -->
+        <view wx:if='{{detailTask.globalReleased}}'>
+          <view wx:if='{{detailTask.sc}}'>
+            <view class='movie-score line-ellipsis'>
+              <image class='movie-star' wx:for='{{detailTask.stars}}' wx:key='{{index}}' src='/assets/images/{{item}}.png'></image>
+              {{detailTask.sc}}
+            </view>
+            <view class='score-num line-ellipsis'>({{detailTask.snum}}人评分)</view>
+          </view>
+          <view class='no-score' wx:else>暂无评分</view>
+        </view>
+        <view wx:else class='movie-score'>{{detailTask.attendantCount}}人参与</view>
+        <view class='movie-category line-ellipsis'>
+          <view>{{detailTask.cat}}</view>
+          <view class='tag-box' wx:if='{{detailTask.version}}'>
+            <text class='tag-d'>{{detailTask.version[0]}}</text>
+            <text wx:if='{{detailTask.version[1]}}' class='tag-imax'>{{detailTask.version[1]}}</text>
+          </view>
+        </view>
+        <view class='movie-time line-ellipsis'>{{detailTask.src}} / {{detailTask.dur}}分钟</view>
+        <view class='movie-time line-ellipsis'>{{detailTask.pubDesc}}</view>
+      </view>
+    </view>
+  </view>
+  <view class='movie-body'>
+    <view class='section'>
+      <view class='section-title'>任务简介</view>
+      <view class='synopsis' style='height:{{isDescFold?"120rpx":"auto"}}'>{{detailTask.description}}</view>
+      <view class='iconfont icon-jiantouarrow483 {{isDescFold?"":"unfold"}}' bindtap='toggleDescFold'></view>
+    </view>
+    <view class='section'>
+      <view class='section-title'>参与人员</view>
+      <scroll-view scroll-x class='scroll-view_H'>暂无参与...</scroll-view>
+    </view>
+    <view class='section'>
+      <view class='section-title'>说明资料</view>
+      <scroll-view scroll-x class='scroll-view_H'>
+        <view wx:if='{{!detailTask.videoImg && !detailTask.images.length}}'>暂无数据...</view>
+        <view class='videoImg-box' wx:if='{{detailTask.videoImg}}' bindtap='toVideo'>
+          <image src='{{detailTask.videoImg}}' class='videoImg' mode='aspectFill'></image>
+          <view class='iconfont icon-zanting'></view>
+        </view>
+        <image wx:for='{{detailTask.images}}' wx:key='{{item}}' src='{{item}}' class='photo' mode='aspectFill' bindtap='previewImage' data-index='{{index}}'></image>
+      </scroll-view>
+    </view>
+    <view class='section' wx:if='{{comments.total && comments.hcmts.length}}'>
+      <view class='section-title comment'>观众评论</view>
+      <view>
+        <template is='commentSection' wx:for='{{comments.hcmts}}' wx:key='{{comment.id}}' wx:for-item='comment' data='{{comment}}'></template>
+      </view>
+      <navigator wx:if='{{comments.total>3}}' class='total' url='../comment-page/comment-page?movieId={{detailTask.id}}&movieName={{detailTask.nm}}'>查看全部{{comments.total}}条短评</navigator>
+    </view>
+  </view>
+  <navigator hover-class='none' url='/pages/subPages/select-cinema/select-cinema?movieId={{detailTask.id}}&movieName={{detailTask.nm}}&showTime={{detailTask.rt}}' wx:if='{{detailTask.onSale}}' class='purchase'>立即领取</navigator>
+</view>

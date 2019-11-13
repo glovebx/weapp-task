@@ -1,0 +1,50 @@
+<import src='../../../templates/loadingMore/loadingMore.wxml' />
+<import src='../../../templates/taskSection/taskSection.wxml' />
+
+<view>
+  <view class='topbar'>
+    <navigator class='city-entry' url='../../subPages/city-select/city-select'>
+      <text class='city-name'>{{cityName}}</text>
+      <text class='city-entry-arrow'></text>
+    </navigator>
+    <view class='switch-hot'>
+      <view class='hot-item {{tabIndex===0 ? "active" :""}}' bindtap='switchTab' data-tab-index='{{0}}'>正在进行</view>
+      <view class='hot-item {{tabIndex===1 ? "active" :""}}' bindtap='switchTab' data-tab-index='{{1}}'>即将开始</view>
+    </view>
+    <navigator class='search-entry' url='../../subPages/search-page/search-page?stype=-1'>
+      <text class='iconfont icon-sousuo'></text>
+    </navigator>
+  </view>
+  <view class='switch-content'>
+    <view hidden="{{tabIndex===1}}">
+      <template is='taskSection' wx:for='{{taskList0}}' wx:for-item='task' wx:key='{{task.taskId}}' data='{{task:task}}'/>
+      <view wx:if='{{startLoadMore0}}'>
+        <template is="loadingMore" />
+      </view>
+    </view>
+    <view hidden="{{tabIndex===0}}">
+      <view class='most-expected' wx:if='{{mostExpectedList.length}}'>
+        <view class='title'>马上火爆全网</view>
+        <scroll-view class='scroll-view_H' scroll-x bindscrolltolower='onScrollToLower'>
+          <navigator url='/pages/subPages/movie-detail/movie-detail?taskId={{task.taskId}}' wx:for='{{mostExpectedList}}' wx:for-item='task' wx:key='{{taskId}}' class='expected-item'>
+            <image src='{{task.cover}}' class='poster'></image>
+            <view class='name line-ellipsis'>{{task.shortTitle || task.title}}</view>
+            <view class='data line-ellipsis'>佣金 ¥{{task.commission}}</view>
+            <view class='data'>{{task.sectionTitle}}</view>
+          </navigator>
+        </scroll-view>
+      </view>
+      <block wx:for='{{taskList1}}' wx:for-item='task' wx:key='{{task.taskId}}'>
+        <block wx:if='{{index===0||taskList1[index-1].sectionTitle!==task.sectionTitle}}'>
+          <view class='title'>{{task.sectionTitle}}</view>
+          <template is='taskSection' data='{{task:task}}' />
+        </block>
+        <template wx:else is='taskSection' data='{{task:task}}' />
+      </block>
+      <!-- <view wx:if='{{!loadComplete1 && taskList1.length}}'> -->
+      <view wx:if='{{startLoadMore1}}'>
+        <template is="loadingMore" />
+      </view>
+    </view>
+  </view>
+</view>

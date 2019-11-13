@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "广场",
+  "usingComponents": {
+    "filter-nav": "/components/filter-nav/filter-nav"
+  }
+}
