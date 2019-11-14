@@ -21,7 +21,7 @@
         <!-- </view> -->
         <view wx:else class='movie-score'>{{detailTask.attendantCount}}人参与</view>
         <view class='movie-category line-ellipsis'>
-          <view>{{detailTask.cat}}</view>
+          <view>佣金 ¥{{detailTask.commission}}</view>
           <view class='tag-box' wx:if='{{detailTask.version}}'>
             <text class='tag-d'>{{detailTask.version[0]}}</text>
             <text wx:if='{{detailTask.version[1]}}' class='tag-imax'>{{detailTask.version[1]}}</text>
@@ -40,7 +40,17 @@
     </view>
     <view class='section'>
       <view class='section-title'>参与人员</view>
-      <scroll-view scroll-x class='scroll-view_H'>暂无参与...</scroll-view>
+      <view class="bargainUser" wx:if="{{detailTask.attendantCount > 0}}">
+          <view class="userItem" wx:for="{{detailTask.attendants}}" wx:key="key" wx:for-item="attendant">
+              <image class="userAvatar" mode="aspectFill" src="{{attendant.avatarUrl}}"></image>
+          </view>
+          <view wx:if="{{detailTask.attendantCount > 5}}" class="userItem">
+              <image class="userAvatar" src="../../../assets/images/moreuser.png"></image>
+          </view>
+          <view class="bargainNum">{{detailTask.attendantCount}}人参与</view>
+          <view class="clear"></view>
+      </view>
+      <scroll-view wx:else scroll-x class='scroll-view_H'>暂无参与...</scroll-view>
     </view>
     <view class='section'>
       <view class='section-title'>说明资料</view>

@@ -41,7 +41,7 @@
 
 .movie-poster {
   width: 214rpx;
-  height: 300rpx;
+  height: 256rpx;
   background-size: cover;
   background-repeat: no-repeat;
   border: solid 1px #f0f2f3;
@@ -123,7 +123,7 @@
 .section-title {
   padding: 20rpx 30rpx 10rpx;
   font-size: 32rpx;
-  color: #444;
+  color: #aaa;
 }
 
 .synopsis {
@@ -202,4 +202,30 @@
   color: #f63;
   text-align: center;
   border-top: 1px solid #e6e6e6;
+}
+
+.bargainUser {
+  padding: 9rpx 30rpx;
+  height: 48rpx;
+}
+
+.bargainUser .userItem {
+  float: left;
+  margin-left: -10rpx;
+}
+
+.bargainUser .userAvatar {
+  width: 50rpx;
+  height: 50rpx;
+  border-radius: 50%;
+  border: 2px solid #fff;
+}
+
+.bargainUser .bargainNum {
+  float: left;
+  color: #787878;
+  font-size: 30rpx;
+  margin-top: 8rpx;
+  margin-left: 20rpx;
+  height: 100%;
 }
